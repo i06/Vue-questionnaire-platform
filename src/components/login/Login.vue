@@ -3,7 +3,7 @@
     <div class="login-fix">
       <div class="login">
         <div class="side">
-          <span class="iconfont">&#xe61c;</span>
+          <span class="iconfont" v-html="'&#xe61c;'"></span>
           <h3 class="title">微型问卷调查平台</h3>
         </div>
         <div class="main">
@@ -18,11 +18,10 @@
                 :class="{'is-active': mode === 'signupForm'}">注册</span>
             </div>
             <!-- 登录表单 & 注册表单 -->
-            <validator v-for="form of forms" :name="form.validateName">
-              <form
-                :name="form.name"
+              <form v-for="form in forms"
+                name="form.name"
                 v-show="mode === form.name"
-                :id="form.name"
+                id="form.name"
                 @submit="form.submitCallback"
                 novalidate>
                 <div class="input-item" v-for="field of form.fields">
@@ -30,19 +29,16 @@
                     <input
                       :id="field.id"
                       :placeholder="field.placeholder"
-                      :field="field.name"
-                      :name="field.name"
+                      field="field.name"
+                      name="field.name"
                       :data-relate-id="field.relateId"
-                      v-validate="field.validate"
-                      @blur="$validate(field.name, true)"
                       initial="off"
                       detect-change="off"
                       :type="field.type">
-                      <i class="iconfont icon">{{{ field.icon }}}</i>
+                      <i class="iconfont icon" v-html="field.icon"></i>
                   </div>
                   <p
-                    v-for="rule in field.tips"
-                    v-show="form.self['$'+form.validateName][field.name][$key]"
+                    v-for="(rule, key) in field.tips"
                     class="tip">{{ rule }}</p>
                 </div>
                 <!-- 提示 -->
@@ -52,15 +48,11 @@
                   <button
                     class="btn"
                     type="submit"
-                    :class="{
-                      abled: !form.self['$'+form.validateName].touched ? false : form.self['$'+form.validateName].valid,
-                      disabled: isLoading
-                    }"
                     >
                     {{ form.submitBtnText }}</button>
                 </div>
               </form>
-            </validator>
+           
             <!-- 登录表单 & 注册表单 -->
           </div>
         </div>
@@ -213,12 +205,11 @@ export default {
     },
     postLogin (e) {
       var self = this
+      let okok = true
       e.preventDefault()
       if (!self.isLoading) {
         self.isLoading = true
-        let validator = this.$loginValidator
-        self.$validate()
-        if (validator.valid) {
+        if (okok) {
           let formDataStr = self.getFormDataStr('loginForm')
           window.fetch('/login', {
             method: 'post',
@@ -233,7 +224,7 @@ export default {
           })
           .then(function (result) {
             if (result.code === 0) {
-              self.$route.router.go('/platform/questionare')
+              self.$route.router.push('/platform/questionare')
             }
             if (result.code === -1 || result.code === -2) {
               if (result.code === -1) {
@@ -254,14 +245,14 @@ export default {
     },
     postSignup (e) {
       var self = this
+      let okok = true
       // 注册方法
       e.preventDefault()
-      let validator = this.$signupValidator
       // 发起请求前验证整个表单
       this.$validate()
       if (!self.isLoading) {
         // 验证正确才能提交请求
-        if (validator.valid) {
+        if (okok) {
           let formDataStr = this.getFormDataStr('signupForm')
           self.isLoading = true
           window.fetch('/signup', {
@@ -277,7 +268,7 @@ export default {
           })
           .then(function (result) {
             if (result.code === 0) {
-              self.$route.router.go('/platform/questionare')
+              self.$route.router.push('/platform/questionare')
             }
           })
           .catch((err) => {

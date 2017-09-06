@@ -1,13 +1,30 @@
-# vue-questionnaire-platform
+## Vue2
+vue-mini2 writted in vue2
 
-> 一个基于 Vue 实现微型问卷调查平台
+<p align="center"><a href="https://bosnaufal.github.io/vue-mini-shop"><img src="./assets/img/logo.png" width="175px" alt="Vue Mini Shop"/></a></p>
 
-[原型图](http://odf594a9x.bkt.clouddn.com/prototype.png)
+# Vue Mini Shop
+Mini Online Shop Built With Vue JS and some of my plugins. It has enough features for starting build an Online Shop with Vue JS! You can use it, but don't forget to give me a credit link~
 
-[设计参考](http://odf594a9x.bkt.clouddn.com/design.jpg)
+## [LIVE](https://bosnaufal.github.io/vue-mini-shop)
 
-[demo 地址](https://glacial-atoll-55322.herokuapp.com/)
+## Now You can work with it
+```bash
+npm install
+npm run dev
+#or
+gulp
+```
 
-先放上我在知乎上的一篇回答，有时间再总结一下这个项目。
+## Thank You for Making this become useful~
+Hopefully it can be useful for your next projects.
 
-[学习 vue.js，Node.JS 等技术不知道写什么东西？请推荐点稍微复杂点的入门项目。](https://www.zhihu.com/question/38269617/answer/128671732?group_id=775071529489674240)
+## Need More?
+Just Contact Me At:
+- Email: [bosnaufalemail@gmail.com](mailto:bosnaufalemail@gmail.com)
+- Skype Id: bosnaufal254
+- twitter: [@BosNaufal](https://twitter.com/BosNaufal)
+
+## License
+[MIT](http://opensource.org/licenses/MIT)
+Copyright (c) 2016 - forever Naufal Rabbani

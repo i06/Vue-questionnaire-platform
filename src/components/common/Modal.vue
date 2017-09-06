@@ -50,11 +50,7 @@ export default {
     },
     show: {
       required: true,
-      type: Boolean,
-      coerce: function (val) {
-        return !!val
-      },
-      twoWay: true
+      type: Boolean
     },
     width: {
       default: null
@@ -69,9 +65,6 @@ export default {
     },
     backdrop: {
       type: Boolean,
-      coerce: function (val) {
-        return !!val
-      },
       default: true
     }
   },

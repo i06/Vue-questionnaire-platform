@@ -10,30 +10,30 @@
       <ol v-if="question.type !== 'text'" class="answers">
         <!-- 答案 -->
         <li
-          v-for="answer in question.answers"
+          v-for="(answer, index) in question.answers"
           class="answer">
           <!-- 选择框 -->
-          <input class="select" type="{{ question.type }}" name="问题{{qIndex + 1}}">
+          <input class="select"  v-bind:type="question.type" v-bind:name="'问题' + qIndex + 1">
           <!-- 选项内容 -->
           <div class="option">
             <div class="input-fix">
               <p
-                @keyup="changeOptionValue(qIndex, $index, $event)"
-                @change="changeOptionValue(qIndex, $index, $event)"
+                @keyup="changeOptionValue(qIndex, index, $event)"
+                @change="changeOptionValue(qIndex, index, $event)"
                 class="input"
                 contenteditable>{{ answer }}</p>
             </div>
             <!-- 选项工具框 -->
             <ul class="option-panel">
               <li
-                @click="optionPositionFront(qIndex, $index)"
+                @click="optionPositionFront(qIndex, index)"
                 class="iconfont">↑</li>
               <li
-                @click="optionPositionBack(qIndex, $index)"
+                @click="optionPositionBack(qIndex, index)"
                 class="iconfont">↓</li>
               <li
                 v-show="question.answers.length > 2"
-                @click="deleteOption(qIndex, $index)"
+                @click="deleteOption(qIndex, index)"
                 class="iconfont">&#xe646;</li>
             </ul>
           </div>
@@ -75,6 +75,8 @@
 </template>
 
 <script>
+import Vue from 'vue'
+var eventHub = new Vue()
 export default {
   props: {
     question: {
@@ -89,41 +91,41 @@ export default {
   methods: {
     // 问题题目
     changeQuestionTitle (qIndex, e) {
-      this.$dispatch('change-question-title', qIndex, e.target.textContent)
+      eventHub.$emit('change-question-title', qIndex, e.target.textContent)
     },
     // 问题位置
     questionPositionFront (oldIndex) {
-      this.$dispatch('question-pos-change', oldIndex, oldIndex - 1)
+      eventHub.$emit('question-pos-change', oldIndex, oldIndex - 1)
     },
     questionPositionBack (oldIndex) {
-      this.$dispatch('question-pos-change', oldIndex, oldIndex + 1)
+      eventHub.$emit('question-pos-change', oldIndex, oldIndex + 1)
     },
     deleteQuestion (qIndex) {
-      this.$dispatch('delete-question', qIndex)
+      eventHub.$emit('delete-question', qIndex)
     },
     // 选项值
     changeOptionValue (qIndex, oIndex, e) {
-      this.$dispatch('change-option-value', qIndex, oIndex, e.target.textContent)
+      eventHub.$emit('change-option-value', qIndex, oIndex, e.target.textContent)
     },
     // 添加选项
     addOption (qIndex) {
-      this.$dispatch('add-option', qIndex)
+      eventHub.$emit('add-option', qIndex)
     },
     // 删除选项
     deleteOption (qIndex, oIndex) {
-      this.$dispatch('delete-option', qIndex, oIndex)
+      eventHub.$emit('delete-option', qIndex, oIndex)
     },
     copyQuestion (qIndex) {
-      this.$dispatch('copy-question', qIndex)
+      eventHub.$emit('copy-question', qIndex)
     },
     changeTextRequired (qIndex, e) {
-      this.$dispatch('change-text-required', qIndex, e.target.checked)
+      eventHub.$emit('change-text-required', qIndex, e.target.checked)
     },
     optionPositionFront (qIndex, oIndex) {
-      this.$dispatch('option-pos-change', qIndex, oIndex, oIndex - 1)
+      eventHub.$emit('option-pos-change', qIndex, oIndex, oIndex - 1)
     },
     optionPositionBack (qIndex, oIndex) {
-      this.$dispatch('option-pos-change', qIndex, oIndex, oIndex + 1)
+      eventHub.$emit('option-pos-change', qIndex, oIndex, oIndex + 1)
     }
   }
 }

@@ -14,7 +14,7 @@
         <tr v-for="qn in qnData">
           <td><span
             @click="toggleSelected(qn.qnId)"
-            class="iconfont">{{{ inArray(this.qnSelected, qn.qnId) ? selectedHTML : unSelectedHTML }}}</span></td>
+            class="iconfont" v-html="inArray(this.qnSelected, qn.qnId) ? selectedHTML : unSelectedHTML"></span></td>
           <td>{{qn.title}}</td>
           <td><time class="time" :class="filterClass(qn)">{{qn.expires}}</time></td>
           <td><span class="status" :class="filterClass(qn)">{{ judgeStatus(qn) }}</span></td>
@@ -45,7 +45,7 @@
       </div>
     <!-- 删除一份问卷 -->
     <modal
-      :show.sync="showDeleteModal"
+      :show="showDeleteModal"
       cancel-text="取消"
       ok-text="确定"
       :callback="deleteQnModalHandler"
@@ -57,7 +57,7 @@
     <!-- 删除一份问卷 end -->
     <!-- 删除多份问卷 -->
     <modal
-      :show.sync="showDeleteSelectedModal"
+      :show="showDeleteSelectedModal"
       cancel-text="取消"
       ok-text="确定"
       :callback="deleteSelectedHandler"
@@ -111,7 +111,7 @@ export default {
           this.qnData = result.data
         }
         if (result.code === -2) {
-          this.$route.router.go({ path: '/login' })
+          this.$route.router.push({ path: '/login' })
         }
       })
       .catch(err => {
@@ -218,7 +218,7 @@ export default {
     editQn (qn) {
       window.sessionStorage.setItem('edit-mode', 'modify')
       window.sessionStorage.setItem('current-qn-id', qn.qnId)
-      this.$route.router.go({ path: '/platform/new/edit' })
+      this.$route.router.push({ path: '/platform/new/edit' })
     },
     judgeStatus (qn) {
       let qnExpires = new Date(qn.expires).getTime()

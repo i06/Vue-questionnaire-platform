@@ -50,11 +50,13 @@
       @change="dateChangeHandler"
       @focus="show = true"
       @click="$event.stopPropagation()"
-      v-el:date-picker>
+      ref="datePicker">
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+var eventHub = new Vue()
 export default {
   data () {
     return {
@@ -182,7 +184,7 @@ export default {
     this.yearRangeStart = this.year - (this.year % 10)
     this.yearRangeEnd = this.yearRangeStart + 9
   },
-  ready () {
+  mounted () {
     document.body.addEventListener('click', () => this.close(), false)
   },
   methods: {
@@ -265,7 +267,7 @@ export default {
       this.show = false
     },
     sueccess () {
-      this.$els.datePicker.value = this.value
+      this.$refs.datePicker = this.value
     },
     dateFromat (date, format) {
       let o = {
@@ -291,7 +293,7 @@ export default {
       return ele.classList.contains(className)
     },
     dateChangeHandler (dateValue) {
-      this.$dispatch('date-change', dateValue)
+      eventHub.$emit('date-change', dateValue)
     }
   }
 }

@@ -38,7 +38,7 @@ export default {
       })
       .then(result => {
         if (result.code === 0) {
-          this.$route.router.go({ path: '/login' })
+          this.$route.router.push({ path: '/login' })
         }
       })
     }

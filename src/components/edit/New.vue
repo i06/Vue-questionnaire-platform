@@ -4,7 +4,7 @@
       <span class="iconfont">&#xe61c;</span>
       <h3 class="title">创建一个新的调查问卷</h3>
       <a
-        v-link="{ path: '/platform/new/edit' }"
+        <router-link to="/platform/new/edit">About</router-link>
         @click="setMode"
         class="btn">新建</a>
     </div>

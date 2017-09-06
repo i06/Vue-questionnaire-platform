@@ -2,18 +2,18 @@
   <div class="qn-wrap">
     <div class="qn">
       <header class="header">
-        <input type="text" class="title" placeholder="填写问卷标题" value="{{title}}" v-model="title">
+        <input type="text" class="title" placeholder="填写问卷标题" vv-bind:value="title" v-model="title">
       </header>
       <div class="body">
         <div class="body-wrap">
           <ol v-if="questions.length !== 0" class="questions">
             <li
               is="question"
-              v-for="(qIndex, q) in questions"
-              track-by="$index"
+              v-for="(q, qIndex) in questions"
+              :track-by="qIndex"
               :q-index="qIndex"
               :question="q"
-              class="question {{ q.type }}">
+              v-bind:class="'question ' + q.type">
             </li>
           </ol>
           <div class="tools">
@@ -29,7 +29,7 @@
       <footer class="footer">
         <div class="pick-date">
           <span class="msg">问卷截止日期</span>
-          <calendar v-ref:date-picker></calendar>
+          <calendar ref="datePicker"></calendar>
         </div>
         <div class="operation">
           <span class="btn" :class="{ disabled: isLoading }" @click="saveBtnHandler">保存问卷</span>
@@ -37,13 +37,12 @@
         </div>
       </footer>
     </div>
-  </div>
-  <alert :show.sync="showAlert" placement="top" duration="3000" type="warning" width="400px" dismissable>
+  <alert :show="showAlert" placement="top" duration="3000" type="warning" width="400px" dismissable>
     <strong>您正在离开当前页面 ...</strong>
     <p>需要先保存问卷吗？</p>
   </alert>
   <modal
-    :show.sync="showModal"
+    :show="showModal"
     cancel-text="取消"
     ok-text="确定"
     :callback="modalCallback"
@@ -52,6 +51,7 @@
       <div>你的问卷尚未保存，确定要放弃保存此问卷吗？</div>
     </div>
   </modal>
+    </div>
 </template>
 
 <script>
@@ -117,10 +117,10 @@ export default {
         .then(result => {
           if (result.code === 0 || result.code === 1) {
             this.canDeactivate = true
-            this.$route.router.go({ path: '/platform/questionare' })
+            this.$route.router.push({ path: '/platform/questionare' })
           } else if (result.code === -1) {
             this.canDeactivate = true
-            this.$route.router.go({ path: '/login' })
+            this.$route.router.push({ path: '/login' })
           }
         })
       }
@@ -145,7 +145,7 @@ export default {
     },
     modalCallback () {
       this.canDeactivate = true
-      this.$route.router.go({ path: '/platform/questionare' })
+      this.$route.router.push({ path: '/platform/questionare' })
     },
     saveBtnHandler () {
       this.saveData()
@@ -181,7 +181,7 @@ export default {
           this.publish = qnData.publish
           this.expires = qnData.expires
           this.qnId = qnData.qnId
-          this.$refs.datePicker.$els.datePicker.value = qnData.expires
+          this.$refs.datePicker.$refs.datePicker.value = qnData.expires
         }
       })
       .catch(err => {
@@ -232,7 +232,7 @@ export default {
     }
   },
   route: {
-    canDeactivate () {
+    beforeRouteLeave () {
       if (!this.canDeactivate) {
         this.showModal = true
         return false

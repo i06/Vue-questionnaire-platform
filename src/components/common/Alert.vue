@@ -1,4 +1,5 @@
 <template>
+  <transition name="fade">
   <div
     v-show="show"
     v-bind:class="{
@@ -16,6 +17,7 @@
       @click="show = false">&times;</span></span>
     <slot></slot>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -26,24 +28,14 @@ export default {
     },
     dismissable: {
       type: Boolean,
-      coerce: function (val) {
-        return !!val
-      },
       default: false
     },
     show: {
       type: Boolean,
-      coerce: function (val) {
-        return !!val
-      },
-      default: true,
-      twoWay: true
+      default: true
     },
     duration: {
       type: Number,
-      coerce: function (val) {
-        return Number(val)
-      },
       default: 0
     },
     width: {
@@ -111,13 +103,11 @@ $successColor: #4cae4c;
   border-color: red;
   color: #fff;
 }
-.fade-transition {
-  transition: opacity .3s ease;
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
 }
-.fade-enter,
-.fade-leave {
-  height: 0;
-  opacity: 0;
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0
 }
 .alert.top {
   position: fixed;

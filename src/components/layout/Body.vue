@@ -7,17 +7,14 @@
         </div>
         <ul class="panel">
           <li v-for="item in routeItems">
-            <a
-              class="link"
-              v-link="item.link">
-              <span class="iconfont">{{{ item.icon }}}</span>{{item.text}}
-            </a>
+          <router-link class="link" v-link="" to="item.link"><span class="iconfont" v-html="item.icon"> </span>{{item.text}}</router-link>
           </li>
         </ul>
       </div>
     </div>
     <div class="content" id="content">
       <router-view></router-view>
+
     </div>
   </div>
 </template>
@@ -60,7 +57,7 @@ export default {
         this.userName = result.userName
       }
       if (result.code === -1) {
-        this.$route.router.go({ path: '/login' })
+        this.$route.router.push({ path: '/login' })
       }
     })
     .catch(err => {
